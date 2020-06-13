@@ -19,7 +19,9 @@ To perform the analysis used pandas and matplotlib libraries to extract the requ
  
 * Merged City and Right data
   ![citydata](analysis/MergedData.PNG)
-  
+ 
+* Summary dataframe with index columns
+   ![summarDF_index](analysis/SummaryWithIndex.PNG)
 * Renamed columns
   ![renamed_cols](analysis/RenamedColData.PNG)
   
@@ -52,7 +54,7 @@ PyBer Per City type summary which includes total fare, total rides, total driver
 Plot shows Total fare by City types per month in that year. Each type is color coded in different color. Also with the help of graph we can see which months has high Fare.
 ![Total_Fare_By_CityType](analysis/TotalFareByCity.png)
 ### Summary
-Accring to summary data frame Rual city type is higher average fare per ride and also higher average fare per driver as total number of rides and total number of drivers are less as compared with total fare. 
+According to summary data frame Rual city type is higher average fare per ride and also higher average fare per driver as total number of rides and total number of drivers are less as compared with total fare. 
 ## Challenges Encountered and Overcome
 * It took some time to understand the data and their relationship between two input files.
 * Pandas is very poweful tool but uses is kind of hard. Ueses certain type of way to extract data. So needed to use exact technique also needed to follow certain order to do certain things
@@ -67,8 +69,14 @@ Accring to summary data frame Rual city type is higher average fare per ride and
   selected_columns = pyber_data_rename_df[["City Type", "Fare"]]
   citytype_fare_df = selected_columns.copy()
   ```
+  * Needed to use matplotlib dates for formatting so x-axis will show month names
+  ```
+   import matplotlib.dates as mdates
+   months = mdates.MonthLocator()
+   month_format = mdates.DateFormatter("%b")
+  ```
 * Data analysis
-  * Need more information. Merging data connected dots but indexing and relationship with Date, City Type and Fare made it more confusing
+  * Merging data connected dots between two input files. Data shows how each cities fare changes with number of drivers. Data also shows what average number of fare per ride per city type. Weekly summary also shows city type fare for different months.
 * Graphing, etc
   * Used Object Orianted approch to plot the data but it was hard to plot x-axis label. Date was in full format and needed to convert it into month. Used matplotlib library function but needed to get months.
 ### Technical Analyses Used
@@ -82,14 +90,21 @@ Boxplot can give us information like mean, mediun etc.
 * Per weekly number of drtivers per city type, this way we know which months have lowest number of drivers.
 * Also can findout how number of drivers and fare is corelated.
 ### Additional Analysis 1
-
 * Description of Approach
-Number of drivers per month per city type can be analysed. From this we can findout which month(s) has maximum number of drivers and which month(s) has minimum number of drivers.
+   * Number of drivers per month per city type can be analysed. From this we can findout which month(s) has maximum number of drivers and which month(s) has minimum number of drivers.
 * Technical Steps
-Mearged data group by City Type and Driver Count. Makesure index is set to Date and Date and its type is datetime. Resample the data into weeks and plot the graph per month and number of drivers each month.
+   * Mearged data group by City Type and Driver Count. 
+   * Make sure index is set to Date and Date and its type is datetime. 
+   * Resample the data into weeks and plot the graph per month and number of drivers each month.
 ### Additional Analysis 2
-
 * Description of Approach
-Find the outlyers in the Total fare by City Type.
+   Find the outlyers in the Total fare by City Type.
 * Technical Steps
-Use boxplot for all different types of cities and fare and plot graph. This way if there are any outlyers we will see in boxplot.
+   * To achive above step we need to use maiplotlib boxplot approch.
+   * We can use boxplot plot and plot for all different types of cities and fare in one graph.
+   * After merging the data from two inout files, Make sure index is set to Date it is of datetime type, and data frame is created with only 2 columns City Type and Fare
+   * Calculate the sum of fare Date and City Type using groupby().
+   * Create pivot table with columns as City Type, this we will get columns for each city type and its fare.
+   * Resample() data by week
+   * Create a list of of different city type weekly data. Create a list of unique city types
+   * Use boxplot and weekly city data as plot data point and x labels as unique cities names
